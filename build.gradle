@@ -1,0 +1,40 @@
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'osgi'
+
+group = 'pnnl.goss'
+version = '0.1.6-SNAPSHOT'
+
+// Define versions for dependencies here
+ext {
+	/*gradleVersion = '2.1'
+	groovyVersion = '2.3.3'*/
+	ipojoVersion = '1.11.2'
+	/*junitVersion = '4.11'
+	mockitoVersion = '1.10.8'
+	slf4jVersion = '1.7.5'
+	spockVersion = '0.7-groovy-2.0'*/
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+dependencies {
+	compile gradleApi()
+	compile localGroovy()
+	// ipojo annotations for service registry/retrieval.
+	compile 'org.apache.felix:org.apache.felix.ipojo.manipulator:1.11.2'
+	compile "org.apache.felix:org.apache.felix.ipojo.annotations:$ipojoVersion"
+	compile "org.apache.felix:org.apache.felix.ipojo:$ipojoVersion"
+	compile "org.apache.felix:org.apache.felix.ipojo.manipulator:$ipojoVersion"
+	
+	
+}
+
+//buildscript {
+//	classpath "org.apache.felix:org.apache.felix.ipojo.manipulator:1.11.2"    
+//}
