@@ -1,0 +1,42 @@
+
+class Version {
+	int major
+	int minor
+	int bugfix
+	boolean snapshot = true
+	static Version load(File versionFile){
+		def props = new Properties()
+		versionFile.withInputStream { stream ->
+			props.load(stream)
+		}
+		def major = Integer.parseInt(props['major'])
+		def minor = Integer.parseInt(props['minor'])
+		def bugfix = Integer.parseInt(props['bugfix'])
+		return new Version(major:major, minor:minor, bugfix:bugfix)
+	}
+	String toString(){
+		"${major}.${minor}.${bugfix}${snapshot ? '-SNAPSHOT':''}"
+	}
+	void store(File versionFile){
+		def props = new Properties()
+		props['bugfix'] = bugfix.toString()
+		props['major'] = major.toString()
+		props['minor'] = minor.toString()
+		props.store(versionFile.newWriter(), null)
+	}
+	Version next(String releaseType = "bugfix"){
+		if(releaseType == "major"){
+			return new Version(major:major+1, minor:0, bugfix:0)
+		}else if(releaseType == "minor"){
+			return new Version(major:major, minor:minor+1, bugfix:0)
+		}else{
+			return new Version(major:major, minor:minor, bugfix:bugfix+1)
+		}
+	}
+}
+
+def latest = Version.load(rootProject.file("latest.properties"))
+
+allprojects{
+	version = latest.next()
+}
