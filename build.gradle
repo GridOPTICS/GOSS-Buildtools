@@ -46,8 +46,3 @@ dependencies {
 }
 
 apply from: 'gradle/release.gradle'
-
-
-//buildscript {
-//	classpath "org.apache.felix:org.apache.felix.ipojo.manipulator:1.11.2"
-//}
